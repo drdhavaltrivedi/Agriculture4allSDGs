@@ -51,31 +51,6 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   return (
     <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-stone-200 shadow-soft">
-      {/* Sleek Enterprise Top Bar */}
-      <div className="bg-[#112217] text-stone-300 text-xs py-1.5 px-4 sm:px-6">
-        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
-          <div className="flex items-center gap-2">
-            <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold tracking-wider uppercase bg-emerald-900/90 text-emerald-200 border border-emerald-700/60">
-              SDG Champions Platform
-            </span>
-            <span className="hidden sm:inline text-stone-500">|</span>
-            <span className="text-stone-300 text-[11px] truncate">
-              United Nations 2030 Agenda • Agricultural Impact Assessment
-            </span>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <button
-              onClick={onResetDemo}
-              title="Reset project data to standard reference state"
-              className="inline-flex items-center gap-1.5 text-[11px] text-stone-400 hover:text-emerald-300 transition-colors cursor-pointer"
-            >
-              <RotateCcw className="w-3 h-3" />
-              <span className="hidden sm:inline">Reset Workspace Data</span>
-            </button>
-          </div>
-        </div>
-      </div>
 
       {/* Main Navigation Bar */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -169,7 +144,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                         </div>
                       </button>
                     ))}
-                    <div className="border-t border-stone-100 mt-1 pt-1 px-2">
+                    <div className="border-t border-stone-100 mt-1 pt-1 px-2 space-y-0.5">
                       <button
                         type="button"
                         onClick={() => {
@@ -179,6 +154,17 @@ export const Navbar: React.FC<NavbarProps> = ({
                         className="w-full text-center py-1.5 text-xs text-forest-700 hover:text-forest-900 font-medium hover:bg-forest-50 rounded"
                       >
                         + Create New Project
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          onResetDemo();
+                          setProjectDropdownOpen(false);
+                        }}
+                        className="w-full flex items-center justify-center gap-1.5 py-1.5 text-xs text-stone-500 hover:text-red-700 font-medium hover:bg-stone-50 rounded"
+                      >
+                        <RotateCcw className="w-3 h-3" />
+                        Reset Workspace Data
                       </button>
                     </div>
                   </div>

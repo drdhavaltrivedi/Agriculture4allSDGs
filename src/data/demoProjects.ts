@@ -3,7 +3,7 @@ import { Project, AssessmentAnswer } from '../types';
 export const DEMO_PROJECTS: Project[] = [
   {
     id: 'proj-paris-agroecology',
-    name: 'Plaine de Versailles Agroecological Transition Project',
+    name: 'Plaine de Versailles Agroecological Transition',
     location: {
       country: 'France',
       state: 'Île-de-France',
