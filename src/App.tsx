@@ -23,7 +23,11 @@ import {
   resetDemoData
 } from './services/storage';
 import { calculateAssessmentResults } from './services/assessmentEngine';
-import { DEMO_PROJECT_1_ANSWERS, DEMO_PROJECT_2_ANSWERS } from './data/demoProjects';
+import {
+  DEMO_PROJECT_PARIS_ANSWERS,
+  DEMO_PROJECT_1_ANSWERS,
+  DEMO_PROJECT_2_ANSWERS
+} from './data/demoProjects';
 
 export function App() {
   const [currentScreen, setCurrentScreen] = useState<string>('welcome');
@@ -86,7 +90,9 @@ export function App() {
 
   const handlePreFillDemoAnswers = () => {
     if (!activeProject) return;
-    const sample = activeProject.id === 'proj-regenerative-soil'
+    const sample = activeProject.id === 'proj-paris-agroecology'
+      ? DEMO_PROJECT_PARIS_ANSWERS
+      : activeProject.id === 'proj-regenerative-soil'
       ? DEMO_PROJECT_2_ANSWERS
       : DEMO_PROJECT_1_ANSWERS;
 

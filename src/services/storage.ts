@@ -1,6 +1,7 @@
 import { Project, AssessmentAnswer } from '../types';
 import {
   DEMO_PROJECTS,
+  DEMO_PROJECT_PARIS_ANSWERS,
   DEMO_PROJECT_1_ANSWERS,
   DEMO_PROJECT_2_ANSWERS
 } from '../data/demoProjects';
@@ -14,12 +15,23 @@ export function getStoredProjects(): Project[] {
     const raw = localStorage.getItem(PROJECTS_KEY);
     if (!raw) {
       saveProjects(DEMO_PROJECTS);
-      // Also seed demo answers
+      saveAssessmentAnswers('proj-paris-agroecology', DEMO_PROJECT_PARIS_ANSWERS);
       saveAssessmentAnswers('proj-green-valley', DEMO_PROJECT_1_ANSWERS);
       saveAssessmentAnswers('proj-regenerative-soil', DEMO_PROJECT_2_ANSWERS);
       return DEMO_PROJECTS;
     }
-    return JSON.parse(raw);
+    const parsed: Project[] = JSON.parse(raw);
+    // Ensure the new Paris project is present if older localStorage exists
+    const hasParis = parsed.some(p => p.id === 'proj-paris-agroecology');
+    if (!hasParis) {
+      const parisProj = DEMO_PROJECTS.find(p => p.id === 'proj-paris-agroecology');
+      if (parisProj) {
+        parsed.unshift(parisProj);
+        saveProjects(parsed);
+        saveAssessmentAnswers('proj-paris-agroecology', DEMO_PROJECT_PARIS_ANSWERS);
+      }
+    }
+    return parsed;
   } catch {
     return DEMO_PROJECTS;
   }
@@ -53,6 +65,10 @@ export function getAssessmentAnswers(projectId: string): Record<string, Assessme
   try {
     const raw = localStorage.getItem(`${ANSWERS_KEY_PREFIX}${projectId}`);
     if (!raw) {
+      if (projectId === 'proj-paris-agroecology') {
+        saveAssessmentAnswers(projectId, DEMO_PROJECT_PARIS_ANSWERS);
+        return DEMO_PROJECT_PARIS_ANSWERS;
+      }
       if (projectId === 'proj-green-valley') {
         saveAssessmentAnswers(projectId, DEMO_PROJECT_1_ANSWERS);
         return DEMO_PROJECT_1_ANSWERS;
@@ -81,7 +97,7 @@ export function saveAssessmentAnswers(
 }
 
 export function getActiveProjectId(): string {
-  return localStorage.getItem(ACTIVE_PROJECT_KEY) || 'proj-green-valley';
+  return localStorage.getItem(ACTIVE_PROJECT_KEY) || 'proj-paris-agroecology';
 }
 
 export function setActiveProjectId(id: string): void {
@@ -92,9 +108,10 @@ export function resetDemoData(): void {
   try {
     localStorage.clear();
     saveProjects(DEMO_PROJECTS);
+    saveAssessmentAnswers('proj-paris-agroecology', DEMO_PROJECT_PARIS_ANSWERS);
     saveAssessmentAnswers('proj-green-valley', DEMO_PROJECT_1_ANSWERS);
     saveAssessmentAnswers('proj-regenerative-soil', DEMO_PROJECT_2_ANSWERS);
-    setActiveProjectId('proj-green-valley');
+    setActiveProjectId('proj-paris-agroecology');
   } catch (err) {
     console.error('Failed to reset demo data:', err);
   }

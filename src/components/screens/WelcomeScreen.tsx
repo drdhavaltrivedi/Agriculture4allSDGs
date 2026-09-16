@@ -11,7 +11,9 @@ import {
   CheckCircle2,
   BarChart3,
   Target,
-  ShieldCheck
+  ShieldCheck,
+  MapPin,
+  Layers
 } from 'lucide-react';
 import { SDGBadge } from '../common/SDGBadge';
 import { Project } from '../../types';
@@ -27,12 +29,11 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
   onSelectProject,
   projects,
 }) => {
-  const primaryDemo = projects.find(p => p.id === 'proj-green-valley');
-  const secondaryDemo = projects.find(p => p.id === 'proj-regenerative-soil');
+  const parisProject = projects.find(p => p.id === 'proj-paris-agroecology') || projects[0];
 
   const handleStartPrimaryDemo = () => {
-    if (primaryDemo) {
-      onSelectProject(primaryDemo.id);
+    if (parisProject) {
+      onSelectProject(parisProject.id);
     }
     onNavigate('assessment-flow');
   };
@@ -85,10 +86,13 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
 
                 <button
                   type="button"
-                  onClick={() => onNavigate('results')}
-                  className="px-4 py-3.5 rounded-xl text-stone-600 hover:text-forest-900 font-medium text-sm transition-colors cursor-pointer"
+                  onClick={() => {
+                    if (parisProject) onSelectProject(parisProject.id);
+                    onNavigate('results');
+                  }}
+                  className="px-4 py-3.5 rounded-xl text-stone-600 hover:text-forest-900 font-semibold text-sm transition-colors cursor-pointer"
                 >
-                  View Live Dashboard &rarr;
+                  View Paris Project Results &rarr;
                 </button>
               </div>
 
@@ -96,7 +100,7 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
               <div className="p-3.5 rounded-xl bg-stone-100/90 border border-stone-200 text-xs text-stone-700 flex items-start gap-2.5 max-w-xl">
                 <ShieldCheck className="w-4 h-4 text-emerald-700 flex-shrink-0 mt-0.5" />
                 <p className="leading-normal">
-                  <strong className="text-stone-900">Standardized Methodology:</strong> Aligned with UN 2030 Sustainable Development Goal indicators, integrating water stewardship, soil carbon, clean energy, and farmer livelihood resilience.
+                  <strong className="text-stone-900">Standardized Methodology:</strong> Aligned with UN 2030 Sustainable Development Goal indicators, integrating water stewardship, soil carbon, clean energy, and farmer livelihood resilience across European and international biomes.
                 </p>
               </div>
             </div>
@@ -113,7 +117,7 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
                     </span>
                   </div>
                   <span className="text-[11px] font-semibold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-                    Rule-Based Signals
+                    Paris, France
                   </span>
                 </div>
 
@@ -131,35 +135,35 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
                 {/* Impact Highlight Preview Card */}
                 <div className="space-y-2.5 text-left text-xs bg-stone-50/80 rounded-xl p-3.5 border border-stone-200/70">
                   <div className="flex items-center justify-between text-stone-500 text-[11px]">
-                    <span className="font-bold text-stone-700">Project Highlight:</span>
-                    <span>Ahmedabad, India</span>
+                    <span className="font-bold text-stone-700">Plaine de Versailles Project</span>
+                    <span className="text-emerald-800 font-semibold">Île-de-France, France</span>
                   </div>
                   <div className="flex items-start gap-2 pt-1">
                     <Droplets className="w-4 h-4 text-cyan-600 flex-shrink-0 mt-0.5" />
                     <div>
-                      <span className="font-bold text-stone-900">SDG 6.4: Water-Use Efficiency</span>
+                      <span className="font-bold text-stone-900">SDG 2.4 & 15.3: Agroecological Soil Carbon</span>
                       <p className="text-stone-600 text-[11px] mt-0.5">
-                        Drip irrigation + scheduling yields a verified +3 positive contribution signal.
+                        Legume-cereal rotation + green manures increased soil organic carbon to 2.1% under INRAE audit.
                       </p>
                     </div>
                   </div>
 
                   <div className="flex items-start gap-2 pt-1 border-t border-stone-200/50">
-                    <BarChart3 className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
+                    <BarChart3 className="w-4 h-4 text-emerald-700 flex-shrink-0 mt-0.5" />
                     <div>
-                      <span className="font-bold text-stone-900">Trade-Off Attention Tracking</span>
+                      <span className="font-bold text-stone-900">SDG 12.2: Short-Supply Paris Food Basin</span>
                       <p className="text-stone-600 text-[11px] mt-0.5">
-                        Shared regional aquifer pressure monitored to ensure sustainable basin extraction.
+                        Direct contracts supplying organic flour and pulses to Parisian public schools and cooperatives.
                       </p>
                     </div>
                   </div>
                 </div>
 
                 <div className="mt-4 pt-3 border-t border-stone-100 flex items-center justify-between text-[11px] text-stone-500">
-                  <span>Transparent • Explainable • Audit-Ready</span>
+                  <span>Audit-Ready • European & Global</span>
                   <button
                     onClick={() => {
-                      if (primaryDemo) onSelectProject(primaryDemo.id);
+                      if (parisProject) onSelectProject(parisProject.id);
                       onNavigate('results');
                     }}
                     className="text-emerald-700 font-bold hover:underline cursor-pointer"
@@ -314,97 +318,65 @@ export const WelcomeScreen: React.FC<WelcomeScreenProps> = ({
             onClick={() => onNavigate('projects')}
             className="text-xs font-semibold text-emerald-800 hover:text-emerald-950 flex items-center gap-1 cursor-pointer"
           >
-            View All Projects &rarr;
+            View All {projects.length} Projects &rarr;
           </button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {primaryDemo && (
-            <div className="bg-white rounded-2xl p-6 border border-emerald-200/80 shadow-soft hover:shadow-card transition-all text-left space-y-4">
-              <div className="flex items-center justify-between">
-                <span className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-200">
-                  <span className="w-2 h-2 rounded-full bg-emerald-600"></span>
-                  Active Field Initiative
-                </span>
-                <span className="text-xs text-stone-500">{primaryDemo.location.display}</span>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {projects.map(project => (
+            <div
+              key={project.id}
+              className="bg-white rounded-2xl p-6 border border-stone-200 shadow-soft hover:shadow-card hover:border-stone-300 transition-all text-left flex flex-col justify-between space-y-4"
+            >
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="inline-flex items-center gap-1.5 text-xs font-bold text-forest-900 bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-200">
+                    <span className="w-2 h-2 rounded-full bg-emerald-600"></span>
+                    {project.location.country === 'France' ? 'French Flagship' : 'Active Field Project'}
+                  </span>
+                  <span className="text-[11px] text-stone-500">{project.area} {project.areaUnit}</span>
+                </div>
+
+                <div>
+                  <h3 className="text-base font-bold text-forest-950 line-clamp-2">{project.name}</h3>
+                  <div className="flex items-center gap-1 text-xs text-stone-500 mt-1">
+                    <MapPin className="w-3.5 h-3.5 text-stone-400" />
+                    <span>{project.location.display}</span>
+                  </div>
+                  <p className="text-xs text-stone-600 mt-2 line-clamp-3 leading-relaxed">{project.description}</p>
+                </div>
+
+                <div className="flex flex-wrap gap-1.5 pt-1">
+                  {project.practices.slice(0, 3).map((pr, idx) => (
+                    <span key={idx} className="text-[10px] bg-stone-100 text-stone-700 px-2 py-0.5 rounded font-medium">
+                      {pr}
+                    </span>
+                  ))}
+                </div>
               </div>
 
-              <div>
-                <h3 className="text-lg font-bold text-forest-950">{primaryDemo.name}</h3>
-                <p className="text-xs text-stone-600 mt-1 line-clamp-2">{primaryDemo.description}</p>
-              </div>
-
-              <div className="flex flex-wrap gap-1.5 pt-1">
-                <span className="text-[11px] bg-stone-100 text-stone-700 px-2 py-0.5 rounded">Drip Irrigation</span>
-                <span className="text-[11px] bg-stone-100 text-stone-700 px-2 py-0.5 rounded">Solar Pumping</span>
-                <span className="text-[11px] bg-stone-100 text-stone-700 px-2 py-0.5 rounded">50 Hectares</span>
-              </div>
-
-              <div className="pt-2 border-t border-stone-100 flex items-center justify-between">
+              <div className="pt-3 border-t border-stone-100 flex items-center justify-between">
                 <button
                   onClick={() => {
-                    onSelectProject(primaryDemo.id);
+                    onSelectProject(project.id);
                     onNavigate('assessment-flow');
                   }}
-                  className="px-4 py-2 rounded-lg bg-forest-900 hover:bg-forest-800 text-white font-semibold text-xs cursor-pointer"
+                  className="px-3.5 py-1.5 rounded-lg bg-forest-900 hover:bg-forest-800 text-white font-semibold text-xs cursor-pointer"
                 >
                   Start Assessment
                 </button>
                 <button
                   onClick={() => {
-                    onSelectProject(primaryDemo.id);
+                    onSelectProject(project.id);
                     onNavigate('results');
                   }}
-                  className="px-3 py-2 rounded-lg text-emerald-800 hover:bg-emerald-50 font-semibold text-xs cursor-pointer"
+                  className="px-2.5 py-1.5 rounded-lg text-emerald-800 hover:bg-emerald-50 font-semibold text-xs cursor-pointer"
                 >
-                  View Live Results &rarr;
+                  View Results &rarr;
                 </button>
               </div>
             </div>
-          )}
-
-          {secondaryDemo && (
-            <div className="bg-white rounded-2xl p-6 border border-stone-200 shadow-soft hover:shadow-card transition-all text-left space-y-4">
-              <div className="flex items-center justify-between">
-                <span className="inline-flex items-center gap-1.5 text-xs font-bold text-stone-700 bg-stone-100 px-2.5 py-1 rounded-md border border-stone-200">
-                  Active Field Initiative
-                </span>
-                <span className="text-xs text-stone-500">{secondaryDemo.location.display}</span>
-              </div>
-
-              <div>
-                <h3 className="text-lg font-bold text-stone-900">{secondaryDemo.name}</h3>
-                <p className="text-xs text-stone-600 mt-1 line-clamp-2">{secondaryDemo.description}</p>
-              </div>
-
-              <div className="flex flex-wrap gap-1.5 pt-1">
-                <span className="text-[11px] bg-stone-100 text-stone-700 px-2 py-0.5 rounded">Crop Rotation</span>
-                <span className="text-[11px] bg-stone-100 text-stone-700 px-2 py-0.5 rounded">Composting</span>
-                <span className="text-[11px] bg-stone-100 text-stone-700 px-2 py-0.5 rounded">25 Hectares</span>
-              </div>
-
-              <div className="pt-2 border-t border-stone-100 flex items-center justify-between">
-                <button
-                  onClick={() => {
-                    onSelectProject(secondaryDemo.id);
-                    onNavigate('assessment-flow');
-                  }}
-                  className="px-4 py-2 rounded-lg bg-forest-900 hover:bg-forest-800 text-white font-semibold text-xs cursor-pointer"
-                >
-                  Start Assessment
-                </button>
-                <button
-                  onClick={() => {
-                    onSelectProject(secondaryDemo.id);
-                    onNavigate('results');
-                  }}
-                  className="px-3 py-2 rounded-lg text-emerald-800 hover:bg-emerald-50 font-semibold text-xs cursor-pointer"
-                >
-                  View Live Results &rarr;
-                </button>
-              </div>
-            </div>
-          )}
+          ))}
         </div>
       </section>
     </div>

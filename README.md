@@ -65,6 +65,7 @@ High-level strategic entry point outlining the assessment methodology, active fi
 
 ### 2. Project Portfolio (`/projects`)
 Filterable project registry with status tags (`Completed Assessment`, `In Progress`, `Not Started`), search capabilities, and pre-enrolled field initiatives:
+- **Plaine de Versailles Agroecological Transition Project** (Paris / Île-de-France, France — 65 ha, organic wheat & pulse intercropping, 3.5 km agroforestry hedgerows, local supply contracts with Parisian schools & food cooperatives).
 - **Green Valley Water-Smart Farming Initiative** (Ahmedabad, Gujarat, India — 50 ha, drip irrigation, solar water pumping, mixed crops).
 - **Regenerative Soil & Farmer Livelihoods Pilot** (Anand, Gujarat, India — 25 ha, cover cropping, vermicomposting, diversified farming).
 
